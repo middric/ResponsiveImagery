@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.responsive * {
+				position: absolute;
+			}
+			@media screen and (min-width: 320px) {
+				.responsive .width { z-index: 320; }
+			}
+			@media screen and (min-width: 480px) {
+				.responsive .width { z-index: 480; }
+			}
+			@media screen and (min-width: 768px) {
+				.responsive .width { z-index: 768; }
+			}
+			@media screen and (min-width: 1024px) {
+				.responsive .width { z-index: 1024; }
+			}
+		</style>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+		<script type="text/javascript" src="responsiveImagery.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('.ri').responsive({
+					patterns: [
+						{
+							regex: /^(.*\/)([0-9]+)(\/.*)$/i,
+							w: 2
+						}
+					],
+					events: 'resize'
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Responsive image prototype</h1>
+
+		<div class="ri" data-ip-type="responsive" data-ip-src="assets/768/my-image.jpeg">
+			<script>
+				document.write("<image a=\'");
+			</script>
+			<noscript>
+				<img class="responsive" src="assets/768/my-image.jpeg" />
+			</noscript a="\'></image \"">
+		</div>
+	</body>
+</html>
