@@ -3,19 +3,22 @@
 	<head>
 		<style>
 			.responsive * {
-				position: absolute;
+			    position: absolute;
 			}
-			@media screen and (min-width: 320px) {
-				.responsive .width { z-index: 320; }
+			.responsive .width { z-index: 300; }
+			.responsive .height { z-index: 150; }
+
+			@media screen and (min-width: 400px) {
+			    .responsive .width { z-index: 400; }
+			    .responsive .height { z-index: 200; }
 			}
-			@media screen and (min-width: 480px) {
-				.responsive .width { z-index: 480; }
+			@media screen and (min-width: 700px) {
+			    .responsive .width { z-index: 700; }
+			    .responsive .height { z-index: 450; }
 			}
-			@media screen and (min-width: 768px) {
-				.responsive .width { z-index: 768; }
-			}
-			@media screen and (min-width: 1024px) {
-				.responsive .width { z-index: 1024; }
+			@media screen and (min-width: 1000px) {
+			    .responsive .width { z-index: 1000; }
+			    .responsive .height { z-index: 800; }
 			}
 		</style>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
@@ -25,8 +28,9 @@
 				$('.ri').responsive({
 					patterns: [
 						{
-							regex: /^(.*\/)([0-9]+)(\/.*)$/i,
-							w: 2
+							regex: /^(.*\/)([0-9]+)(x)([0-9]+)(\/.*)$/i,
+							w: 2,
+							h: 4
 						}
 					],
 					events: 'resize'
@@ -35,14 +39,12 @@
 		</script>
 	</head>
 	<body>
-		<h1>Responsive image prototype</h1>
-
-		<div class="ri" data-ip-type="responsive" data-ip-src="assets/768/my-image.jpeg">
+		<div class="ri" data-ip-type="responsive" data-ip-src="assets/700x450/my-image.jpeg">
 			<script>
 				document.write("<image a=\'");
 			</script>
 			<noscript>
-				<img class="responsive" src="assets/768/my-image.jpeg" />
+				<img class="responsive" src="assets/700x450/my-image.jpeg" />
 			</noscript a="\'></image \"">
 		</div>
 	</body>
