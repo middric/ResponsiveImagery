@@ -1,5 +1,3 @@
-var jQuery;
-
 (function ($) {
 	var params = { _evaluating: false },
 		methods = {
