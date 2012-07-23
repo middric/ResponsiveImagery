@@ -1,3 +1,21 @@
+/* 
+					ReponsiveImagery.js v0.2
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+                    Version 2, December 2004 
+
+ Copyright (C) 2012 Rich Middleditch <@middric>
+
+ Everyone is permitted to copy and distribute verbatim or modified 
+ copies of this license document, and changing it is allowed as long 
+ as the name is changed. 
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+
+  0. You just DO WHAT THE FUCK YOU WANT TO. 
+*/
+
 (function ($) {
 	var params = { _evaluating: false },
 		methods = {
@@ -16,7 +34,7 @@
 			render: function (el) {
 				var type = el.attr('data-ip-type') || false,
 					src = el.attr('data-ip-src') || false,
-					w = 0, h = 0,
+					var1 = 0, var2 = 0,
 					image, url, pattern;
 
 				if (!src) {
@@ -28,16 +46,16 @@
 				}
 
 				params.placeholder.addClass(type);
-				w = parseInt($('.width', params.placeholder).css('z-index'), 10) || 0;
-				h = parseInt($('.height', params.placeholder).css('z-index'), 10) || 0;
+				var1 = parseInt($('.var1', params.placeholder).css('z-index'), 10) || 0;
+				var2 = parseInt($('.var2', params.placeholder).css('z-index'), 10) || 0;
 				params.placeholder.removeClass(type);
 
 				var matches = src.match(pattern.regex);
-				if (pattern.w && matches[pattern.w]) {
-					matches[pattern.w] = w;
+				if (pattern.var1 && matches[pattern.var1]) {
+					matches[pattern.var1] = var1;
 				}
-				if (pattern.h && matches[pattern.h]) {
-					matches[pattern.h] = h;
+				if (pattern.var2 && matches[pattern.var2]) {
+					matches[pattern.var2] = var2;
 				}
 				matches.shift();
 				url = matches.join('');

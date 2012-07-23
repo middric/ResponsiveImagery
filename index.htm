@@ -5,20 +5,20 @@
 			.responsive * {
 			    position: absolute;
 			}
-			.responsive .width { z-index: 300; }
-			.responsive .height { z-index: 150; }
+			.responsive .var1 { z-index: 300; }
+			.responsive .var2 { z-index: 150; }
 
 			@media screen and (min-width: 400px) {
-			    .responsive .width { z-index: 400; }
-			    .responsive .height { z-index: 200; }
+			    .responsive .var1 { z-index: 400; }
+			    .responsive .var2 { z-index: 200; }
 			}
 			@media screen and (min-width: 700px) {
-			    .responsive .width { z-index: 700; }
-			    .responsive .height { z-index: 450; }
+			    .responsive .var1 { z-index: 700; }
+			    .responsive .var2 { z-index: 450; }
 			}
 			@media screen and (min-width: 1000px) {
-			    .responsive .width { z-index: 1000; }
-			    .responsive .height { z-index: 800; }
+			    .responsive .var1 { z-index: 1000; }
+			    .responsive .var2 { z-index: 800; }
 			}
 		</style>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
@@ -29,8 +29,8 @@
 					patterns: [
 						{
 							regex: /^(.*\/)([0-9]+)(x)([0-9]+)(\/.*)$/i,
-							w: 2,
-							h: 4
+							var1: 2,
+							var2: 4
 						}
 					],
 					events: 'resize'

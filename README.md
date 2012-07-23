@@ -7,12 +7,12 @@ This approach to responsively loading images was built to work under conditions 
 
 How it works
 ------------
-1.  Images are stored on a server in a format similar to /assets/1000x800/my-image.jpg where 1000x800 defines the image dimensions and is variable.
-2.  On page load a placeholder div is generated on the page. This div has 2 child divs with 'width' and 'height' as classes.
+1.  Images are stored on a server at a location with a url format similar to /assets/*variable*x*variable*/my-image.jpg.
+2.  On script execution a placeholder div is generated on the page. This div has 2 child divs with 'var1' and 'var2' as classes.
 3.  When passed a DOM node the script checks for data-ip-type and data-ip-src attributes assigned to the node. Without them the script will do nothing.
 4.  The value of the data-ip-type attribute is assigned to the placeholder div as a class.
-5.  Using predefined CSS, z-index attributes are assigned to the width and height divs within the placeholder. By doing this the z-index values can change based on a media query in the CSS.
-6.  The z-index values are used to replace parts of the data-ip-src value to generate a src attribute, e.g. /assets/600x450/my-image.jpg.
+5.  Using predefined CSS, z-index attributes are assigned to the var1 and var2 divs within the placeholder. By doing this the z-index values can change based on a media query in the CSS.
+6.  The z-index values are used to replace the *variable* of the data-ip-src value to generate a src attribute, e.g. /assets/*variable*x*variable*/my-image.jpg might become /assets/600x450/my-image.jpg.
 7.  An img tag is created which uses the new src attribute to load an image asset appropriate for the current valid media query.
 
 
@@ -23,42 +23,44 @@ Usage
 		patterns: [
 			{
 				regex: /^(.*\/)([0-9]+)(x)([0-9]+)(\/.*)$/i,
-				w: 2,
-				h: 4
+				var1: 2,
+				var2: 4
 			}
 		],
-		events: 'resize'
+		events: 'resize myEvent',
+		id: 'myPlaceholder'
 	});
 
-To use ReponsiveImagery.js ensure jQuery is included and call the .responsive() plugin on the desired images as in the example above. Parameters that can be passed to the plugin:
+To use ReponsiveImagery.js ensure jQuery is included and call the .responsive() plugin on the desired DOM elements as in the example above. Parameters that can be passed to the plugin:
 
 *   **patterns** - required. Patterns is an array of possible image asset URL formats. Each array item is an object with the following keys:
-	*  **regex** - A regular expression that matches an image asset URL. This regex should be grouped so that the width and height parts fo the string are in their own groups.
-	*  **w** - The group which specifies the image width
-	*  **h** - The group which specifies the image height. If your URL format only incldues one dimension (just width for example) then this parameter is optional
+	*  **regex** - A regular expression that matches an image asset URL. This regex should be grouped so that the variables are in their own groups.
+	*  **var1** - The group which specifies the image width
+	*  **var2** - The group which specifies the image height. If your URL format only uses one variable then this parameter is optional
 *   **events** - optional. The events on which the script should re-evaluate the images on the page. By default this is on 'resize', its recommended that some form of custom breakpoint change event is used instead in order to not run the script on each resize event which is can be very CPU intensive. The script evaluates all images when its called so a 'load' event is not required. 
+*   **id** - optional. An ID to use for the placeholder. If none supplied, one will be generated.
 
 ###CSS
 	.responsive * {
 		position: absolute;
 	}
-	.responsive .width { z-index: 300; }
-	.responsive .height { z-index: 150; }
+	.responsive .var1 { z-index: 300; }
+	.responsive .var2 { z-index: 150; }
 
 	@media screen and (min-width: 400px) {
-		.responsive .width { z-index: 400; }
-		.responsive .height { z-index: 200; }
+		.responsive .var1 { z-index: 400; }
+		.responsive .var2 { z-index: 200; }
 	}
 	@media screen and (min-width: 700px) {
-		.responsive .width { z-index: 700; }
-		.responsive .height { z-index: 450; }
+		.responsive .var1 { z-index: 700; }
+		.responsive .var2 { z-index: 450; }
 	}
 	@media screen and (min-width: 1000px) {
-		.responsive .width { z-index: 1000; }
-		.responsive .height { z-index: 800; }
+		.responsive .var1 { z-index: 1000; }
+		.responsive .var2 { z-index: 800; }
 	}
 
-The CSS above is used as a lookup table to retrieve the correct image asset based on a media query. For browsers which do not support media queries provide a fallback (in this case z-index: 320) or use a JS shim to enable support.
+The CSS above is used as a lookup table to retrieve the correct image asset based on a media query. For browsers which do not support media queries provide a fallback (in this case z-index: 320 and z-index: 150) or use a JS shim to enable support.
 
 ###HTML
 	<div class="ri" data-ip-type="responsive" data-ip-src="assets/700x450/my-image.jpeg">
@@ -81,14 +83,32 @@ Important things to note:
 Tips
 ----
 ### Directory naming
-Note that the URL is totally arbitrary and independent of the actual image asset dimensions. It's recommended that in most cases the asset directories match your website breakpoint resolutions rather than image asset resolutions, in this way you can minimise the number of directories on the webserver and keep the images for each breakpoint in the same directories as each other. 
+Note that the URL is totally arbitrary and independent of the actual image asset dimensions. It's recommended that in most cases the asset directories match your website breakpoint resolutions rather than image asset resolutions, in this way you can minimise the number of directories on the webserver and keep the images for each breakpoint in the same directories as each other. For example:
+
+	$('.ri').responsive({
+		patterns: [
+			{
+				regex: /^(.*\/)([0-9]+)(\/.*)$/i,
+				var1: 2
+			}
+		]
+	});
+
+With a directory structure like:
+
+	/assets/1/my-image.jpg
+	/assets/2/my-image.jpg
+	/assets/3/my-image.jpg
+	...
+
+Where 1/2/3 represent mobile, tablet, and desktop breakpoints.
 
 ### External image hosting
 On large scale image intensive websites its not uncommon for images to be hosted on external load balanced servers. ResponsiveImagery.js was specifically designed with this in mind. Regex patterns passed to the script should be generic enough to cope with variations in server naming in order to cope with this kind of environment.
 
 ### Dynamic image sizing
-It can be useful to upload to the server images in a very high resolution and have them resized and cached dynamically server side. In this way you can have the server generate images for you based on the URL used to access that image. When doing this the CSS z-index SHOULD match the width and height you plan to use for the image asset.
+It can be useful to upload to the server images in a very high resolution and have them resized and cached dynamically server side. In this way you can have the server generate images for you based on the URL used to access that image. When doing this the CSS z-index should match the width and height you plan to use for the image asset.
 
 ***
 
-ReponsiveImagery.js is based on work originally done at the [BBC by the iPlayer team](http://www.bbc.co.uk/blogs/bbcinternet/2012/05/channel_website_new_tech.html)
+ReponsiveImagery.js is based on [work originally done at the BBC by the iPlayer team](http://www.bbc.co.uk/blogs/bbcinternet/2012/05/channel_website_new_tech.html)
