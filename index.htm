@@ -2,35 +2,34 @@
 <html>
 	<head>
 		<style>
-			.responsive * {
+			.myImageType * {
 			    position: absolute;
 			}
-			.responsive .var1 { z-index: 300; }
-			.responsive .var2 { z-index: 150; }
+			.myImageType .var1 { z-index: 300; }
+			.myImageType .var2 { z-index: 150; }
 
 			@media screen and (min-width: 400px) {
-			    .responsive .var1 { z-index: 400; }
-			    .responsive .var2 { z-index: 200; }
+			    .myImageType .var1 { z-index: 400; }
+			    .myImageType .var2 { z-index: 200; }
 			}
 			@media screen and (min-width: 700px) {
-			    .responsive .var1 { z-index: 700; }
-			    .responsive .var2 { z-index: 450; }
+			    .myImageType .var1 { z-index: 700; }
+			    .myImageType .var2 { z-index: 450; }
 			}
 			@media screen and (min-width: 1000px) {
-			    .responsive .var1 { z-index: 1000; }
-			    .responsive .var2 { z-index: 800; }
+			    .myImageType .var1 { z-index: 1000; }
+			    .myImageType .var2 { z-index: 800; }
 			}
 		</style>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
-		<script type="text/javascript" src="responsiveImagery.min.js"></script>
+		<script type="text/javascript" src="responsiveImagery.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				$('.ri').responsive({
+				$('.ri').responsiveImagery({
 					patterns: [
 						{
 							regex: /^(.*\/)([0-9]+)(x)([0-9]+)(\/.*)$/i,
-							var1: 2,
-							var2: 4
+							variables: [2, 4]
 						}
 					],
 					events: 'resize'
@@ -39,12 +38,12 @@
 		</script>
 	</head>
 	<body>
-		<div class="ri" data-ip-type="responsive" data-ip-src="assets/700x450/my-image.jpeg">
+		<div class="ri" data-ip-type="myImageType" data-ip-src="assets/700x450/my-image.jpeg">
 			<script>
 				document.write("<image a=\'");
 			</script>
 			<noscript>
-				<img class="responsive" src="assets/700x450/my-image.jpeg" />
+				<img src="assets/700x450/my-image.jpeg" />
 			</noscript a="\'></image \"">
 		</div>
 	</body>

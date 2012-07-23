@@ -19,12 +19,11 @@ How it works
 Usage
 -----
 ###JavaScript
-	$('.ri').responsive({
+	$('.ri').responsiveImagery({
 		patterns: [
 			{
 				regex: /^(.*\/)([0-9]+)(x)([0-9]+)(\/.*)$/i,
-				var1: 2,
-				var2: 4
+				variables: [2, 4]
 			}
 		],
 		events: 'resize myEvent',
@@ -35,40 +34,39 @@ To use ReponsiveImagery.js ensure jQuery is included and call the .responsive() 
 
 *   **patterns** - required. Patterns is an array of possible image asset URL formats. Each array item is an object with the following keys:
 	*  **regex** - A regular expression that matches an image asset URL. This regex should be grouped so that the variables are in their own groups.
-	*  **var1** - The group which specifies the image width
-	*  **var2** - The group which specifies the image height. If your URL format only uses one variable then this parameter is optional
+	*  **variables** - The groups which specifies the variables within the URL. Max 2 values, second value is optional
 *   **events** - optional. The events on which the script should re-evaluate the images on the page. By default this is on 'resize', its recommended that some form of custom breakpoint change event is used instead in order to not run the script on each resize event which is can be very CPU intensive. The script evaluates all images when its called so a 'load' event is not required. 
 *   **id** - optional. An ID to use for the placeholder. If none supplied, one will be generated.
 
 ###CSS
-	.responsive * {
+	.myImageType * {
 		position: absolute;
 	}
-	.responsive .var1 { z-index: 300; }
-	.responsive .var2 { z-index: 150; }
+	.myImageType .var1 { z-index: 300; }
+	.myImageType .var2 { z-index: 150; }
 
 	@media screen and (min-width: 400px) {
-		.responsive .var1 { z-index: 400; }
-		.responsive .var2 { z-index: 200; }
+		.myImageType .var1 { z-index: 400; }
+		.myImageType .var2 { z-index: 200; }
 	}
 	@media screen and (min-width: 700px) {
-		.responsive .var1 { z-index: 700; }
-		.responsive .var2 { z-index: 450; }
+		.myImageType .var1 { z-index: 700; }
+		.myImageType .var2 { z-index: 450; }
 	}
 	@media screen and (min-width: 1000px) {
-		.responsive .var1 { z-index: 1000; }
-		.responsive .var2 { z-index: 800; }
+		.myImageType .var1 { z-index: 1000; }
+		.myImageType .var2 { z-index: 800; }
 	}
 
 The CSS above is used as a lookup table to retrieve the correct image asset based on a media query. For browsers which do not support media queries provide a fallback (in this case z-index: 320 and z-index: 150) or use a JS shim to enable support.
 
 ###HTML
-	<div class="ri" data-ip-type="responsive" data-ip-src="assets/700x450/my-image.jpeg">
+	<div class="ri" data-ip-type="myImageType" data-ip-src="assets/700x450/my-image.jpeg">
 		<script>
 			document.write("<image a=\'");
 		</script>
 		<noscript>
-			<img class="responsive" src="assets/700x450/my-image.jpeg" />
+			<img src="assets/700x450/my-image.jpeg" />
 		</noscript a="\'></image \"">
 	</div>
 
@@ -85,11 +83,11 @@ Tips
 ### Directory naming
 Note that the URL is totally arbitrary and independent of the actual image asset dimensions. It's recommended that in most cases the asset directories match your website breakpoint resolutions rather than image asset resolutions, in this way you can minimise the number of directories on the webserver and keep the images for each breakpoint in the same directories as each other. For example:
 
-	$('.ri').responsive({
+	$('.ri').responsiveImagery({
 		patterns: [
 			{
 				regex: /^(.*\/)([0-9]+)(\/.*)$/i,
-				var1: 2
+				variables: [2]
 			}
 		]
 	});

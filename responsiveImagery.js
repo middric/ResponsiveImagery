@@ -1,5 +1,5 @@
 /* 
-					ReponsiveImagery.js v0.2
+					ReponsiveImagery.js v0.3
 
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -17,10 +17,11 @@
 */
 
 (function ($) {
+	'use strict';
 	var params = { _evaluating: false },
 		methods = {
 			generatePlaceholder: function () {
-				return $('<div id="' + params.id + '" class="placeholder"><div class="width"></div><div class="height"></div></div>').appendTo('body');
+				return params.placeholder || $('<div id="' + params.id + '" class="placeholder"><div class="var1"></div><div class="var2"></div></div>').appendTo('body');
 			},
 			evaluate: function (self) {
 				if (!params._evaluating) {
@@ -34,29 +35,27 @@
 			render: function (el) {
 				var type = el.attr('data-ip-type') || false,
 					src = el.attr('data-ip-src') || false,
-					var1 = 0, var2 = 0,
-					image, url, pattern;
+					variables = [],
+					i, image, j, matches, pattern, url;
 
 				if (!src) {
 					return;
 				}
 				pattern = methods.validateSrc(src);
-				if (!pattern) {
+				if (!pattern || !pattern.regex || !pattern.variables) {
 					return;
 				}
 
 				params.placeholder.addClass(type);
-				var1 = parseInt($('.var1', params.placeholder).css('z-index'), 10) || 0;
-				var2 = parseInt($('.var2', params.placeholder).css('z-index'), 10) || 0;
+				variables[0] = parseInt($('.var1', params.placeholder).css('z-index'), 10) || 0;
+				variables[1] = parseInt($('.var2', params.placeholder).css('z-index'), 10) || 0;
 				params.placeholder.removeClass(type);
 
-				var matches = src.match(pattern.regex);
-				if (pattern.var1 && matches[pattern.var1]) {
-					matches[pattern.var1] = var1;
-				}
-				if (pattern.var2 && matches[pattern.var2]) {
-					matches[pattern.var2] = var2;
-				}
+				matches = src.match(pattern.regex);
+				for (i = 0, j = 0; i < variables.length; i++, j++) {
+					matches[pattern.variables[i]] = variables[j];
+				};
+
 				matches.shift();
 				url = matches.join('');
 
@@ -82,7 +81,7 @@
 			}
 		};
 
-	$.fn.responsive = function (options) {
+	$.fn.responsiveImagery = function (options) {
 		var self = this;
 
 		params = $.extend({
@@ -91,7 +90,7 @@
 			events: 'resize'
 		}, options);
 
-		params.placeholder = params.placeholder || methods.generatePlaceholder();
+		params.placeholder = methods.generatePlaceholder();
 
 		$(window).bind(params.events, function () {
 			methods.evaluate(self);
