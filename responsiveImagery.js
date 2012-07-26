@@ -1,5 +1,5 @@
 /*
-					ReponsiveImagery.js v0.3
+					ReponsiveImagery.js v0.4
 
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -33,8 +33,9 @@
 				}
 			},
 			render: function (el) {
-				var type = el.attr('data-ip-type') || false,
-					src = el.attr('data-ip-src') || false,
+				var type = el.attr('data-type') || false,
+					src = el.attr('data-src') || false,
+					alt = el.attr('data-alt') || '',
 					variables = [],
 					i, image, j, matches, pattern, url;
 
@@ -63,7 +64,7 @@
 				if (image.length) {
 					image.attr('src', url);
 				} else {
-					$('<img src="' + url + '" />').appendTo(el);
+					$('<img src="' + url + '" alt="' + alt + '" />').appendTo(el);
 				}
 			},
 			validateSrc: function (src) {

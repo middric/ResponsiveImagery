@@ -22,7 +22,7 @@
 			}
 		</style>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
-		<script type="text/javascript" src="responsiveImagery.min.js"></script>
+		<script type="text/javascript" src="responsiveImagery.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('.ri').responsiveImagery({
@@ -38,21 +38,15 @@
 		</script>
 	</head>
 	<body>
-		<div class="ri" data-ip-type="myImageType" data-ip-src="assets/700x450/my-image.jpeg">
-			<script>
-				document.write("<image a=\'");
-			</script>
+		<div class="ri" data-type="myImageType" data-src="assets/700x450/my-image.jpeg" data-alt="Alt tag">
 			<noscript>
-				<img src="assets/700x450/my-image.jpeg" />
-			</noscript a="\'></image \"">
+				<img src="assets/700x450/my-image.jpeg" alt="Alt tag" />
+			</noscript>
 		</div>
-		<div class="ri" data-ip-type="myImageType" data-ip-src="assets/700x450/my-image.jpeg">
-			<script>
-				document.write("<image a=\'");
-			</script>
+		<div class="ri" data-type="myImageType" data-src="assets/700x450/my-image.jpeg">
 			<noscript>
 				<img src="assets/700x450/my-image.jpeg" />
-			</noscript a="\'></image \"">
+			</noscript>
 		</div>
 	</body>
 </html>
